@@ -3,42 +3,26 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Video Player</title>
+  <title>Eliv</title>
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
 
-  <script src=videoframe.js></script>
   <script defer src="renderer.js"></script>
 </head>
 
 <body class="content">
-  <h1>Video Player 🎉</h1>
 
-  <video>
-    <source src="file:////home/gasta/Downloads/24fps.mp4" type="video/mp4">
+  <div class="imgContainer">
+    <img id="image" src=""></img>
+  </div>
 
-  </video>
+  <div class="statusbar">
+    <div class="statuscontainer">
+      <button id="videoSelectBtn" class="statuscontrol button is-primary">Open Image</button>
+      <p class="statuscontrol" id="debug"></p>
+    </div>
+  </div>
 
-  <button id="startBtn" class="button is-primary">Start</button>
-  <button id="stopBtn" class="button is-warning">Stop</button>
-  <button id="seekFw1" class="button is-warning">+1</button>
-  <button id="seekBh1" class="button is-warning">-1</button>
-  <input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)"
-    onchange="SetVolume(this.value)"></input>
-
-  <p id="timecode">00:00:00:00</pid>
-    <hr />
-
-    <button id="videoSelectBtn" class="button is-text">Choose a video</button>
-
-  <p id="debug"></p>
-
-  <script>
-    function SetVolume(val) {
-      var player = document.querySelector('video');
-      player.volume = val / 100;
-    }
-  </script>
 
 </body>
 

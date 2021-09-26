@@ -1,92 +1,108 @@
+const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants');
 const { remote } = require('electron');
 const { dialog } = remote;
+const fs = require('fs');
 
-const ve = document.querySelector('video');
-const startBtn = document.getElementById('startBtn');
-const stopBtn = document.getElementById('stopBtn');
-const seekFw1Btn = document.getElementById('seekFw1');
-const seekBh1Btn = document.getElementById('seekBh1');
+const image = document.getElementById('image');
 const videoSelectBtn = document.getElementById('videoSelectBtn');
-const timecode = document.getElementById('timecode');
 
 const debug = document.getElementById('debug');
-let intervalId = 0;
 
 document.addEventListener('keydown', logKey);
 
-startBtn.onclick = startPlaying;
-stopBtn.onclick = stopPlaying;
-seekFw1Btn.onclick = seekFwFrame;
-seekBh1Btn.onclick = seekBhFrame;
 videoSelectBtn.onclick = selectMedia;
 
-let video = VideoFrame({
-  id: 'video',
-  frameRate: FrameRates.film,
-  callback: function (response) {
-    console.log(response);
-  }
-});
+let folder = '';
+let file = '';
+let files = null;
+let fileIndex = 0;
 
 async function selectMedia() {
-  const result = await dialog.showOpenDialog({ properties: ['openFile'] });
+  const result = await dialog.showOpenDialog({
+    defaultPath: folder,
+    properties: ['openFile'],
+  });
   if (!result.canceled) {
     console.log(result.filePaths);
-    const source = ve.getElementsByTagName('source');
-    source[0].src = 'file:///' + result.filePaths[0];
-    ve.load();
+    image.src = 'file:///' + result.filePaths[0];
+    resize();
+
+    folder = result.filePaths[0];
+    file = folder.substring(folder.lastIndexOf('/') + 1, folder.length);
+    folder = folder.substring(0, folder.lastIndexOf('/') + 1);
+
+    files = fs.readdirSync(folder);
+    files.sort();
+    fileIndex = files.findIndex((element) => (element = file));
+    debug.innerText = `File: ${file} - ${fileIndex + 1} / ${
+      files.length
+    } files`;
   }
 }
 
-function seekFwFrame() {
-  video.seekForward(1, () => {
-    timecode.innerText = video.toSMPTE();
-    console.log(video.get());
-  });
-}
+function nextImage() {
+  if (fileIndex < files.length - 1) {
+    console.log(files);
+    image.src = 'file:///' + folder + files[fileIndex + 1];
+    resize();
+    fileIndex++;
+    debug.innerText = `File: ${files[fileIndex]} - ${fileIndex + 1} / ${
+      files.length
+    } files`;
+  }
 
-function seekBhFrame() {
-  video.seekBackward(1, () => {
-    timecode.innerText = video.toSMPTE();
-    console.log(video.get());
-  });
-}
-
-function startPlaying() {
-  intervalId = setInterval(function () {
-    timecode.innerText = video.toSMPTE();
-  }, 40);
-  ve.play();
-}
-
-function stopPlaying() {
-  if (!ve.paused) {
-    ve.pause();
-    clearInterval(intervalId);
-    video.seekBackward(1, () => {
-      console.log(video.get());
-    });
+  if (fileIndex === files.length - 1) {
+    selectMedia();
   }
 }
 
+function prevImage() {
+  if (fileIndex > 0) {
+    console.log(files);
+    image.src = 'file:///' + folder + files[fileIndex - 1];
+    resize();
+    fileIndex--;
+    debug.innerText = `File: ${files[fileIndex]} - ${fileIndex + 1} / ${
+      files.length
+    } files`;
+  }
+}
 function logKey(e) {
   //ALT+a
   if (e.altKey && e.keyCode === 65) {
-    console.log('AAAAA');
   }
-  //spacebar
-  if (e.keyCode === 32) {
-    (ve.paused) ? startPlaying() : stopPlaying();
+  // ->
+  if (e.keyCode === 39) {
+    nextImage();
   }
-  //j
-  if (e.keyCode === 74) {
-    seekFwFrame();
+  // <-
+  if (e.keyCode === 37) {
+    prevImage();
   }
   //k
   if (e.keyCode === 75) {
-    seekBhFrame();
   }
 
   //e.ctrlKey && e.altKey && e.shiftKey
   console.log(e.keyCode);
+}
+
+function resize() {
+  winDim = getWinDim();
+
+  image.style.height = `${winDim.y -20} px`;
+
+  if (image.offsetWidth > winDim.x) {
+    image.style.height = null;
+    image.style.width = winDim.x + 'px';
+  }
+}
+
+function getWinDim() {
+  var body = document.documentElement || document.body;
+
+  return {
+    x: window.innerWidth || body.clientWidth,
+    y: window.innerHeight || body.clientHeight,
+  };
 }

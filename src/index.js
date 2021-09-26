@@ -4,31 +4,29 @@ const path = require('path');
 //reloader
 try {
   require('electron-reloader')(module);
-} catch (_) { }
+} catch (_) {}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if (require('electron-squirrel-startup')) {
+  // eslint-disable-line global-require
   app.quit();
 }
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
-    }
+      enableRemoteModule: true,
+    },
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.webContents.openDevTools();
-  
-  const handle = mainWindow.getNativeWindowHandle().readUInt32LE()
-  console.log(`nativeWindowHandle: ${handle.toString(16)}`)
+  //mainWindow.webContents.openDevTools();
 
+  const handle = mainWindow.getNativeWindowHandle().readUInt32LE();
+  console.log(`nativeWindowHandle: ${handle.toString(16)}`);
 };
 
 // This method will be called when Electron has finished
