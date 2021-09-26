@@ -1,0 +1,69 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@2.2.0 
+
+jobs:
+  buildLinux:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:11
+    steps:
+      - checkout
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Install dpkg and fakeroot
+          command: |
+            sudo apt-get update -y
+            sudo apt-get install -y dpkg fakeroot
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Generate Builds
+          command: npm run make
+      - store_artifacts:
+          path: ~/repo/out/make
+
+  buildWin: # name of your job
+    executor:
+      name: win/default
+      size: "medium" 
+    working_directory: C:\Users\circleci\repo
+    steps:
+      - checkout
+#      - run:           
+#          name: Update NPM
+#          shell: cmd.exe
+#          command: |
+#            npm install -g -p npm-windows-upgrade
+#            npm-windows-upgrade -p -e -v latest
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Generate Builds
+          command: npm run make
+      - store_artifacts:
+          path: ./out/make
+
+workflows:
+  buildArtifacts:
+    jobs:
+      - buildLinux
+      - buildWin
+
