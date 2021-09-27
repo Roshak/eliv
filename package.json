@@ -1,8 +1,8 @@
 {
-    "name": "videoplayer",
-    "productName": "VideoPlayer",
+    "name": "eliv",
+    "productName": "Eliv",
     "version": "0.0.1",
-    "description": "Video Player??",
+    "description": "Electron Image viewer",
     "main": "src/index.js",
     "scripts": {
         "start": "electron-forge start",
@@ -20,40 +20,44 @@
     "config": {
         "forge": {
             "packagerConfig": {
-                "executableName": "videoplayer"
+                "executableName": "eliv"
             },
-            "makers": [{
+            "makers": [
+                {
                     "name": "@electron-forge/maker-squirrel",
                     "config": {
-                        "name": "VideoPlayer"
+                        "name": "Eliv"
                     }
                 },
                 {
                     "name": "@electron-forge/maker-zip",
                     "platforms": [
-                        "darwin", "linux", "windows"
+                        "darwin",
+                        "linux",
+                        "windows"
                     ]
                 },
                 {
                     "name": "@electron-forge/maker-deb",
                     "config": {
-                        "name": "videoplayer"
+                        "name": "eliv"
                     }
                 }
             ]
         }
     },
     "dependencies": {
+        "@electron/remote": "^2.0.1",
         "electron-squirrel-startup": "^1.0.0",
         "node-mpv": "^2.0.0-beta.1"
     },
     "devDependencies": {
-        "@electron-forge/cli": "^6.0.0-beta.54",
-        "@electron-forge/maker-deb": "^6.0.0-beta.54",
-        "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-        "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-        "@electron-forge/maker-zip": "^6.0.0-beta.54",
-        "electron": "11.1.0",
-        "electron-reloader": "^1.1.0"
+        "@electron-forge/cli": "^6.0.0-beta.61",
+        "@electron-forge/maker-deb": "^6.0.0-beta.61",
+        "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+        "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+        "@electron-forge/maker-zip": "^6.0.0-beta.61",
+        "electron": "15.0.0",
+        "electron-reloader": "^1.2.1"
     }
 }

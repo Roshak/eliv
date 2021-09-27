@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 
 //reloader
@@ -12,15 +12,18 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const remoteMain = require('@electron/remote/main');
+remoteMain.initialize();
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
+      contextIsolation: false,
     },
   });
-
+  remoteMain.enable(mainWindow.webContents);
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
   //mainWindow.webContents.openDevTools();
@@ -28,6 +31,10 @@ const createWindow = () => {
   const handle = mainWindow.getNativeWindowHandle().readUInt32LE();
   console.log(`nativeWindowHandle: ${handle.toString(16)}`);
 };
+
+Menu.setApplicationMenu(new Menu());
+
+app.disableHardwareAcceleration();
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

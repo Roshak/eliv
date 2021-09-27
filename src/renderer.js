@@ -1,6 +1,4 @@
-const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants');
-const { remote } = require('electron');
-const { dialog } = remote;
+const { dialog } = require('@electron/remote') 
 const fs = require('fs');
 
 const image = document.getElementById('image');
@@ -90,7 +88,7 @@ function logKey(e) {
 function resize() {
   winDim = getWinDim();
 
-  image.style.height = `${winDim.y -20} px`;
+  image.style.height = `${winDim.y - 20} px`;
 
   if (image.offsetWidth > winDim.x) {
     image.style.height = null;
