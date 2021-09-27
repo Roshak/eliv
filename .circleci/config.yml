@@ -1,13 +1,13 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@2.2.0 
+  win: circleci/windows@2.4 
 
 jobs:
   buildLinux:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:11
+      - image: cimg/node:current
     steps:
       - checkout
       - run:
@@ -40,12 +40,16 @@ jobs:
     working_directory: C:\Users\circleci\repo
     steps:
       - checkout
-#      - run:           
-#          name: Update NPM
-#          shell: cmd.exe
-#          command: |
-#            npm install -g -p npm-windows-upgrade
-#            npm-windows-upgrade -p -e -v latest
+      - run:           
+          name: Install npm-windows-upgrade
+          shell: cmd.exe
+          command: |
+            npm install -g -p npm-windows-upgrade
+      - run:           
+          name: Update NPM
+          shell: cmd.exe
+          command: |
+            npm-windows-upgrade -p -e -v latest
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
