@@ -18,6 +18,7 @@ remoteMain.initialize();
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    backgroundColor: '#282a36',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -26,7 +27,7 @@ const createWindow = () => {
   remoteMain.enable(mainWindow.webContents);
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  //mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   const handle = mainWindow.getNativeWindowHandle().readUInt32LE();
   console.log(`nativeWindowHandle: ${handle.toString(16)}`);

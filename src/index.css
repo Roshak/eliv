@@ -2,7 +2,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
   margin: auto;
-  padding: 2rem;
+  background: #282a36 !important;
+}
+
+.mainContainer {
+  background: #282a36;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .imgContainer {
@@ -10,9 +16,10 @@ body {
   margin-right: auto;
   width: 100%;
   height: 100%;
-  border: 1px solid green;
+  border: 1px solid #50fa7b;
   display: inline-block;
   text-align: center;
+  background: #282a36
 }
 
 img {
@@ -22,18 +29,28 @@ img {
 }
 
 .statusbar {
-  border: 1px solid black;
-  height: 40px;
-  position: fixed;
-  bottom: 0%;
+  border: 1px solid #50fa7b;
+  height: 50px;
   width: 100%;
-  opacity: 1;
-  position: fixed;
 }
 
 .statuscontainer {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: center !important;
   gap: 10px;
+  padding: 5px;
+  background: #282a36;
+}
+
+.statuscontrol {
+  background: #ff79c6 !important;
+  color: #44475a !important;
+}
+
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #282a36 !important;
+  color: #f8f8f2 !important;
 }

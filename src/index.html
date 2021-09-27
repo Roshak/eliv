@@ -5,24 +5,24 @@
   <meta charset="UTF-8">
   <title>Eliv</title>
   <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
   <script defer src="renderer.js"></script>
 </head>
 
-<body class="content">
+<body>
+  <div class="mainContainer">
+    <div class="imgContainer">
+      <img id="image" src=""></img>
+    </div>
 
-  <div class="imgContainer">
-    <img id="image" src=""></img>
-  </div>
-
-  <div class="statusbar">
-    <div class="statuscontainer">
-      <button id="videoSelectBtn" class="statuscontrol button is-primary">Open Image</button>
-      <p class="statuscontrol" id="debug"></p>
+    <div class="statusbar fixed-bottom">
+      <div class="statuscontainer">
+        <button id="videoSelectBtn" class="statuscontrol btn">Open Image</button>
+        <p class="" id="debug"></p>
+      </div>
     </div>
   </div>
-
 
 </body>
 

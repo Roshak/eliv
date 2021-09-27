@@ -1,4 +1,4 @@
-const { dialog } = require('@electron/remote') 
+const { dialog } = require('@electron/remote');
 const fs = require('fs');
 
 const image = document.getElementById('image');
@@ -17,11 +17,13 @@ let fileIndex = 0;
 
 async function selectMedia() {
   const result = await dialog.showOpenDialog({
+    title: 'Open...',
+    buttonLabel: 'Select',
     defaultPath: folder,
     properties: ['openFile'],
   });
   if (!result.canceled) {
-    console.log(result.filePaths);
+    // console.log(result.filePaths);
     image.src = 'file:///' + result.filePaths[0];
     resize();
 
@@ -30,8 +32,8 @@ async function selectMedia() {
     folder = folder.substring(0, folder.lastIndexOf('/') + 1);
 
     files = fs.readdirSync(folder);
-    files.sort();
-    fileIndex = files.findIndex((element) => (element = file));
+    files = files.sort();
+    fileIndex = files.findIndex((element) => element === file);
     debug.innerText = `File: ${file} - ${fileIndex + 1} / ${
       files.length
     } files`;
@@ -40,7 +42,7 @@ async function selectMedia() {
 
 function nextImage() {
   if (fileIndex < files.length - 1) {
-    console.log(files);
+    // console.log(files);
     image.src = 'file:///' + folder + files[fileIndex + 1];
     resize();
     fileIndex++;
@@ -56,7 +58,7 @@ function nextImage() {
 
 function prevImage() {
   if (fileIndex > 0) {
-    console.log(files);
+    // console.log(files);
     image.src = 'file:///' + folder + files[fileIndex - 1];
     resize();
     fileIndex--;
@@ -66,9 +68,6 @@ function prevImage() {
   }
 }
 function logKey(e) {
-  //ALT+a
-  if (e.altKey && e.keyCode === 65) {
-  }
   // ->
   if (e.keyCode === 39) {
     nextImage();
@@ -77,22 +76,17 @@ function logKey(e) {
   if (e.keyCode === 37) {
     prevImage();
   }
-  //k
-  if (e.keyCode === 75) {
-  }
-
-  //e.ctrlKey && e.altKey && e.shiftKey
-  console.log(e.keyCode);
+  // console.log(e.keyCode);
 }
 
 function resize() {
   winDim = getWinDim();
 
-  image.style.height = `${winDim.y - 20} px`;
-
+  image.style.height = `${winDim.y - 40}px`;
+  console.log(image.clientWidth);
   if (image.offsetWidth > winDim.x) {
     image.style.height = null;
-    image.style.width = winDim.x + 'px';
+    image.style.width = `${winDim.x}px`;
   }
 }
 
