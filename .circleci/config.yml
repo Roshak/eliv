@@ -40,16 +40,16 @@ jobs:
     working_directory: C:\Users\circleci\repo
     steps:
       - checkout
-      - run:           
-          name: Install npm-windows-upgrade
-          shell: cmd.exe
-          command: |
-            npm install -g -p npm-windows-upgrade
-      - run:           
-          name: Update NPM
-          shell: cmd.exe
-          command: |
-            npm-windows-upgrade -p -e -v latest
+      # - run:           
+      #     name: Install npm-windows-upgrade
+      #     shell: cmd.exe
+      #     command: |
+      #       npm install -g -p npm-windows-upgrade
+      # - run:           
+      #     name: Update NPM
+      #     shell: cmd.exe
+      #     command: |
+      #       npm-windows-upgrade -p -e -v latest
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
