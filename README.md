@@ -1,3 +1,5 @@
 # ELectron Image Viewer
 
-[![<Roshak>](https://circleci.com/gh/Roshak/eliv.svg?style=svg)](https://app.circleci.com/pipelines/github/Roshak/eliv)
+<p align="center">
+    [![<Roshak>](https://circleci.com/gh/Roshak/eliv.svg?style=shield)](https://app.circleci.com/pipelines/github/Roshak/eliv)
+</p>

@@ -1,4 +1,4 @@
-const { dialog } = require('@electron/remote');
+const { dialog, process } = require('@electron/remote');
 const fs = require('fs');
 
 const image = document.getElementById('image');
@@ -10,10 +10,20 @@ document.addEventListener('keydown', logKey);
 
 videoSelectBtn.onclick = selectMedia;
 
+let args = process.argv;
+
 let folder = '';
 let file = '';
 let files = null;
 let fileIndex = 0;
+
+if (args.length > 2) {
+  image.src = `file:///${process.cwd()}/${args[2]}`;
+  file = args[2];
+  folder = process.cwd();
+  files = [file];
+  debug.innerText = `File: ${file} - ${fileIndex + 1} / ${files.length} files`;
+}
 
 async function selectMedia() {
   const result = await dialog.showOpenDialog({
