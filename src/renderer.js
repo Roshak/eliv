@@ -11,15 +11,16 @@ document.addEventListener('keydown', logKey);
 videoSelectBtn.onclick = selectMedia;
 
 let args = process.argv;
+console.log(args);
 
 let folder = '';
 let file = '';
 let files = null;
 let fileIndex = 0;
 
-if (args.length > 2) {
-  image.src = `file:///${process.cwd()}/${args[2]}`;
-  file = args[2];
+if (args.length > 1) {
+  image.src = `file:///${process.cwd()}/${args[1]}`;
+  file = args[1];
   folder = process.cwd();
   files = [file];
   debug.innerText = `File: ${file} - ${fileIndex + 1} / ${files.length} files`;
